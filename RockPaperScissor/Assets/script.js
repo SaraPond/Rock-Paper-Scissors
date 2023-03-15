@@ -55,7 +55,7 @@ window.onload = () => {
       message = `Paper covers Rock  YOU LOSE!`;
       cpuScore++;
     }
-    return [message, playerScore, cpuScore];
+    return [message, playerScore, userMove, cpuScore, cpuMove];
   }
 
   function createOutput(message) {
