@@ -5,23 +5,25 @@ window.onload = () => {
   const rock_div = document.getElementById('rock');
   const paper_div = document.getElementById('paper');
   const scissors_div = document.getElementById('scissors');
+  const moves = ['rock', 'paper', 'scissors'];
   let resultArray;
   let result;
 
   rock_div.addEventListener('click', () => {
     resultArray = decideOutput('rock');
-    result = resultArray[0];
-    createOutput(result);
+    result = resultArray.userMove;
+    createOutputMessage(result);
   });
   paper_div.addEventListener('click', () => {
     resultArray = decideOutput('paper');
-    result = resultArray[0];
-    createOutput(result);
+    result = resultArray.userMove;
+    createOutputMessage(result);
   });
   scissors_div.addEventListener('click', () => {
     resultArray = decideOutput('scissors');
-    result = resultArray[0];
-    createOutput(result);
+    console.log(resultArray);
+    result = resultArray.userMove;
+    createOutputMessage(result);
   });
 
   function cpuRoll(moves) {
@@ -29,45 +31,58 @@ window.onload = () => {
     return moves[random];
   }
 
+  let gameResult = {
+    playerScore: 0,
+    cpuScore: 0,
+    message: '',
+    userMove: '',
+    cpuMove: '',
+  };
+
   function decideOutput(userMove) {
-    let playerScore = 0;
-    let cpuScore = 0;
-    let message = '';
-    let cpuMove = cpuRoll(['rock', 'paper', 'scissors']);
+    let cpuMove = cpuRoll(moves);
+
     if (cpuMove === userMove) {
-      message = `DRAW`;
-    } else if (userMove === 'scissors' && cpuMove === 'paper') {
-      message = `Scissors cut Paper  YOU WIN!`;
-      playerScore++;
-    } else if (userMove === 'rock' && cpuMove === 'scissors') {
-      message = `Rock breaks Scissors  YOU WIN!`;
-      playerScore++;
-    } else if (userMove === 'paper' && cpuMove === 'rock') {
-      message = `Paper covers Rock  YOU WIN!`;
-      playerScore++;
-    } else if (userMove === 'paper' && cpuMove === 'scissors') {
-      message = `Scissors cut Paper  YOU LOSE!`;
-      cpuScore++;
-    } else if (userMove === 'scissors' && cpuMove === 'rock') {
-      message = `Rock breaks Scissors  YOU LOSE!`;
-      cpuScore++;
-    } else if (userMove === 'rock' && cpuMove === 'paper') {
-      message = `Paper covers Rock  YOU LOSE!`;
-      cpuScore++;
+      gameResult.message = `DRAW`;
+    } else if ((userMove === 'scissors' && cpuMove === 'paper') || (userMove === 'rock' && cpuMove === 'scissors') || (userMove === 'paper' && cpuMove === 'rock')) {
+      gameResult.message = `YOU WIN!`;
+      gameResult.playerScore++;
+    } else {
+      gameResult.message = `YOU LOSE!`;
+      gameResult.cpuScore++;
     }
-    return [message, playerScore, userMove, cpuScore, cpuMove];
+
+    gameResult.userMove = userMove;
+    gameResult.cpuMove = cpuMove;
+
+    createMoveMessage();
+    counterScores();
+
+    return { ...gameResult };
   }
 
-  function createOutput(message) {
-    const resultDiv = document.querySelector('.result');
+  function createOutputMessage() {
+    const resultDiv = document.querySelector('#result');
     const checkP = resultDiv.querySelector('p');
     if (checkP != null) {
       resultDiv.removeChild(resultDiv.firstChild);
     }
     const pTag = document.createElement('p');
-    const text = document.createTextNode(message);
+    const text = document.createTextNode(gameResult.message);
     pTag.appendChild(text);
     // pTag.innerHTML = message;
     resultDiv.appendChild(pTag);
+  }
+
+  function createMoveMessage() {
+    const divResults = document.getElementById('result');
+    divResults.innerHTML = `<div class="score" id="player-score">${gameResult.userMove}</div> VS <div class="score" id="cpu-score">${gameResult.cpuMove}</div>`;
+  }
+
+  function counterScores() {
+    const playerScore = document.getElementById('player-score');
+    playerScore.innerHTML = gameResult.playerScore;
+    const cpuScore = document.getElementById('cpu-score');
+    cpuScore.innerHTML = gameResult.cpuScore;
   }
 };
