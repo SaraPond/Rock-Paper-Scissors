@@ -120,7 +120,7 @@ img:hover {
   opacity: 0;
   animation-name: appear;
   animation-duration: 0.7s;
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
   animation-fill-mode: forwards;
 }
 
@@ -151,12 +151,12 @@ footer {
   background-color: #1abc9c;
   z-index: 9999;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
 }
 
 .social-media-icons {
-  display: flex;
+  margin-right: auto;
 }
 
 .social-media-icons a {
@@ -169,17 +169,18 @@ footer {
 }
 
 .social-media-icons i:hover {
-  color: #0077b5; /* colore di LinkedIn */
+  color: #1a1a25; /* colore di LinkedIn */
 }
 
 .social-media-icons i:hover {
-  color: #1da1f2; /* colore di Twitter */
+  color: #1a1a25; /* colore di Twitter */
 }
 
 footer p {
   text-align: center;
   font-size: 20px;
   color: #ffffff;
+  margin-right: 20px;
 }
 @media screen and (min-width: 768px) {
   #moves {
